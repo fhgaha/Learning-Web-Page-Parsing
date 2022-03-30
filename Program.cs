@@ -38,11 +38,10 @@ namespace Learning_Web_Page_Parsing
                 .OrderBy(e => e)
                 .Last();
 
-            for (int i = 0; i < pageAmount; i++)
+            for (int i = 1; i <= pageAmount; i++)
             {
                 string urlString = baseUrl + categoryUrl;
-                if (i > 0)
-                    urlString = baseUrl + categoryUrl + additionUrl + i.ToString();
+                if (i > 1) urlString = baseUrl + categoryUrl + additionUrl + i.ToString();
 
                 IHtmlDocument doc = await ParsePage(urlString, requiredCity);
 
@@ -52,7 +51,7 @@ namespace Learning_Web_Page_Parsing
 
                 await foreach (var product in GenerateSequence(cards, requiredCity))
                 {
-                    Console.WriteLine($"Page {i + 1}: " + product.Name);
+                    Console.WriteLine($"Page {i}: " + product.Name);
 
                     var line = string.Join(',', new List<string>
                     {
@@ -71,7 +70,7 @@ namespace Learning_Web_Page_Parsing
             }
         }
 
-     
+
 
         public static async Task<IHtmlDocument> ParsePage(string urlString, string requiredCity)
         {
@@ -80,7 +79,7 @@ namespace Learning_Web_Page_Parsing
                 ["Санкт-Петербург"] = "78000000000",
                 ["Ростов-на-Дону"] = "61000001000"
             };
-           
+
             var doc = default(IHtmlDocument);
             var client = new HttpClient();
 
